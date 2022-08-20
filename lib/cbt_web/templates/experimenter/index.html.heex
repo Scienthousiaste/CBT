@@ -1,0 +1,16 @@
+<h1>Experimenters</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Is admin ?</th>
+    </tr>
+    <%= for experimenter <- @experimenters do %>
+    <tr>
+        <td><b><%= full_name(experimenter) %></b></td>
+        <td><%= experimenter.email %></td>
+        <td><%= experimenter.is_admin %></td>
+        <td><%= link "View", to: Routes.experimenter_path(@conn, :show, experimenter.id) %></td>
+    </tr>
+    <% end %> 
+</table>
