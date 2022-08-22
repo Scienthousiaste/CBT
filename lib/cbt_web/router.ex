@@ -8,6 +8,7 @@ defmodule CbtWeb.Router do
     plug :put_root_layout, {CbtWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CbtWeb.Auth
   end
 
   pipeline :api do
@@ -19,6 +20,7 @@ defmodule CbtWeb.Router do
 
     get "/", PageController, :index
     resources "/experimenters", ExperimenterController, only: [:index, :show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

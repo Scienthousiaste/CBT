@@ -33,4 +33,20 @@ defmodule Cbt.Accounts do
     |> Experimenter.registration_changeset(attrs)
     |> Repo.insert()
   end
+
+  def authenticate_by_email_and_pass(email, given_pass) do
+    experimenter = get_experimenter_by(email: email)
+
+    cond do
+      experimenter && Pbkdf2.verify_pass(given_pass, experimenter.password_hash) ->
+        {:ok, experimenter}
+
+      experimenter ->
+        {:error, :unauthorized}
+
+      true ->
+        Pbkdf2.no_user_verify()
+        {:error, :not_found}
+    end
+  end
 end
