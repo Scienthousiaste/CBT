@@ -1,3 +1,20 @@
+<nav role="navigation">
+  <ul>
+    <%= if @current_experimenter do %>
+      <li>
+        <%= link "Account", to: Routes.experimenter_path(@conn, :show, @current_experimenter.id) %>
+      </li>
+      <li>
+        <%= link "Log out", to: Routes.session_path(@conn, :delete, @current_experimenter), method: "delete" %>
+      </li>
+    <% else %>
+    <li>
+      <%= link "Log in", to: Routes.session_path(@conn, :new) %>
+    </li>
+    <% end %> 
+  </ul>
+</nav>
+
 <main class="container">
   <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
   <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

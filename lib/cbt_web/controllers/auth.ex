@@ -15,4 +15,8 @@ defmodule CbtWeb.Auth do
     |> put_session(:experimenter_id, experimenter.id)
     |> configure_session(renew: true)
   end
+
+  def logout(conn) do
+    configure_session(conn, drop: true)
+  end
 end
