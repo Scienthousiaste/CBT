@@ -4,7 +4,7 @@ defmodule CbtWeb.ExperimenterController do
   alias Cbt.Accounts
   alias Cbt.Accounts.Experimenter
 
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate_experimenter when action in [:index, :show]
 
   def index(conn, _params) do
     render(conn, "index.html", experimenters: Accounts.list_experimenters())
@@ -30,17 +30,6 @@ defmodule CbtWeb.ExperimenterController do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
-    end
-  end
-
-  defp authenticate(conn, _opts) do
-    if conn.assigns.current_experimenter do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Routes.page_path(conn, :index))
-      |> halt()
     end
   end
 end

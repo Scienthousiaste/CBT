@@ -23,6 +23,7 @@ defmodule CbtWeb do
 
       import Plug.Conn
       import CbtWeb.Gettext
+      import CbtWeb.Auth, only: [authenticate_experimenter: 2]
       alias CbtWeb.Router.Helpers, as: Routes
     end
   end
@@ -74,6 +75,7 @@ defmodule CbtWeb do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import CbtWeb.Auth, only: [authenticate_experimenter: 2]
     end
   end
 

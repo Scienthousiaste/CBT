@@ -23,6 +23,11 @@ defmodule CbtWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
+  scope "/manage", CbtWeb do
+    pipe_through [:browser, :authenticate_experimenter]
+    resources "/experiments", TaskController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CbtWeb do
   #   pipe_through :api
