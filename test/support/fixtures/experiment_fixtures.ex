@@ -18,4 +18,20 @@ defmodule Cbt.ExperimentFixtures do
 
     task
   end
+
+  @doc """
+  Generate a question.
+  """
+  def question_fixture(attrs \\ %{}) do
+    {:ok, question} =
+      attrs
+      |> Enum.into(%{
+        default: true,
+        text: "some text",
+        type_answer: :unique_choice
+      })
+      |> Cbt.Experiment.create_question()
+
+    question
+  end
 end

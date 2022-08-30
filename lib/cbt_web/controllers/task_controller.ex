@@ -10,8 +10,9 @@ defmodule CbtWeb.TaskController do
   end
 
   def new(conn, _params, _current_experimenter) do
+    default_questions = Experiment.default_questions()
     changeset = Experiment.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, questions: default_questions)
   end
 
   def create(conn, %{"task" => task_params}, current_experimenter) do

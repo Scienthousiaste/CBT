@@ -4,9 +4,13 @@ defmodule Cbt.Experiment do
   """
 
   import Ecto.Query, warn: false
+
   alias Cbt.Accounts
+  alias Cbt.Experiment.Question
   alias Cbt.Experiment.Task
   alias Cbt.Repo
+  alias Cbt.Utils
+  alias Ecto.Changeset
 
   def list_tasks do
     Repo.all(Task)
@@ -15,9 +19,13 @@ defmodule Cbt.Experiment do
   def get_task!(id), do: Repo.get!(Task, id)
 
   def create_task(%Accounts.Experimenter{} = experimenter, attrs \\ %{}) do
+    # TODOs:
+    # - put assoc with questions
+
     %Task{}
     |> Task.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:experimenter, experimenter)
+    |> Changeset.put_assoc(:experimenter, experimenter)
+    |> Changeset.put_change(:url, Cbt.URL.generate_url())
     |> Repo.insert()
   end
 
@@ -49,5 +57,37 @@ defmodule Cbt.Experiment do
 
   defp experimenter_task_query(query, %Accounts.Experimenter{id: experimenter_id}) do
     from(v in query, where: v.experimenter_id == ^experimenter_id)
+  end
+
+  def default_questions() do
+    from(q in Question, where: q.is_default == true)
+    |> Repo.all()
+  end
+
+  def get_experiment_questions(%Task{id: task_id}) do
+    from(q in Question, where: q.task_id == ^task_id)
+    |> Repo.all()
+  end
+
+  def get_question!(id), do: Repo.get!(Question, id)
+
+  def create_question(attrs \\ %{}) do
+    %Question{}
+    |> Question.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_question(%Question{} = question, attrs) do
+    question
+    |> Question.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_question(%Question{} = question) do
+    Repo.delete(question)
+  end
+
+  def change_question(%Question{} = question, attrs \\ %{}) do
+    Question.changeset(question, attrs)
   end
 end

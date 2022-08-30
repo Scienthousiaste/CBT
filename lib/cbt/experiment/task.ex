@@ -5,16 +5,33 @@ defmodule Cbt.Experiment.Task do
   schema "tasks" do
     field :name, :string
     field :url, :string
+    field :language, :string
+    field :pre_form_instruction, :string
+    field :pre_expe_instruction, :string
+    field :end_instruction, :string
+    field :description, :string
 
     belongs_to :experimenter, Cbt.Accounts.Experimenter
 
     timestamps()
   end
 
+  @attributes [
+    :name,
+    :url,
+    :language,
+    :pre_form_instruction,
+    :pre_expe_instruction,
+    :end_instruction,
+    :description
+  ]
+
+  @required_attributes [:name, :pre_form_instruction, :pre_expe_instruction, :end_instruction]
+
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:name, :url])
-    |> validate_required([:name, :url])
+    |> cast(attrs, @attributes)
+    |> validate_required(@required_attributes)
   end
 end
