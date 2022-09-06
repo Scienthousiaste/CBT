@@ -6,7 +6,7 @@
   <% end %>
 
   <%= label f, :name %>
-  <%= text_input f, :name %>
+  <%= text_input f, :name, value: "CBT"%>
   <%= error_tag f, :name %>
 
   <%= label f, :description%>
@@ -14,19 +14,19 @@
   <%= error_tag f, :description %>
 
   <%= label f, :language %>
-  <%= text_input f, :language %>
+  <%= text_input f, :language, value: "english" %>
   <%= error_tag f, :language %>
 
   <%= label f, :pre_form_instruction%>
-  <%= textarea f, :pre_form_instruction %>
+  <%= textarea f, :pre_form_instruction, value: default_pre_form_instruction() %>
   <%= error_tag f, :pre_form_instruction %>
 
   <%= label f, :pre_expe_instruction%>
-  <%= textarea f, :pre_expe_instruction %>
+  <%= textarea f, :pre_expe_instruction, value: default_pre_expe_instruction() %>
   <%= error_tag f, :pre_expe_instruction %>
    
   <%= label f, :end_instruction%>
-  <%= textarea f, :end_instruction %>
+  <%= textarea f, :end_instruction, value: default_end_instruction() %>
   <%= error_tag f, :end_instruction %>
 
   <div>
