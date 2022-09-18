@@ -29,6 +29,11 @@ defmodule Cbt.Experiment do
     |> Repo.insert()
   end
 
+  def create_task_questionnaire(%Accounts.Experimenter{} = experimenter, task, attrs \\ %{}) do
+    require IEx; IEx.pry
+    nil
+  end
+
   def update_task(%Task{} = task, attrs) do
     task
     |> Task.changeset(attrs)
@@ -61,6 +66,7 @@ defmodule Cbt.Experiment do
 
   def default_questions() do
     from(q in Question, where: q.is_default == true)
+    |> preload(:question_choices)
     |> Repo.all()
   end
 

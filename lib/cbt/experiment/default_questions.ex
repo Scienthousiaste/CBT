@@ -11,7 +11,7 @@ defmodule Cbt.Experiment.DefaultQuestions do
   def get_default_questions do
     [
       %{text: "Sex", type_answer: :multiple_choice, choices: ["Male", "Female", "Intersex"]},
-      %{text: "Age", type_answer: :boolean},
+      %{text: "Age", type_answer: :integer},
       %{text: "Years of education", type_answer: :integer}
     ]
   end

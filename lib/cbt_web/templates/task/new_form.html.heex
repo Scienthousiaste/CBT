@@ -1,0 +1,13 @@
+<h1>Adding the questionnaire</h1>
+
+<%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task), fn f -> %>
+
+  <%= for question <- @default_questions do %>
+    <%= display_question(%{form: f, question: question}) %>
+  <% end %>
+
+  <div>+</div>
+  <%= submit "Save" %>
+<% end %>
+
+<span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

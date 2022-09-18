@@ -10,9 +10,8 @@ defmodule CbtWeb.TaskController do
   end
 
   def new(conn, _params, _current_experimenter) do
-    default_questions = Experiment.default_questions()
     changeset = Experiment.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, questions: default_questions)
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"task" => task_params}, current_experimenter) do
@@ -20,7 +19,7 @@ defmodule CbtWeb.TaskController do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Cognitive Bias Task created successfully.")
-        |> redirect(to: Routes.task_path(conn, :show, task))
+        |> redirect(to: Routes.task_path(conn, :new_form, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -59,6 +58,37 @@ defmodule CbtWeb.TaskController do
     conn
     |> put_flash(:info, "Task deleted successfully.")
     |> redirect(to: Routes.task_path(conn, :index))
+  end
+
+  def new_form(conn, %{"id" => id}, current_experimenter) do
+    task = Experiment.get_experimenter_task!(current_experimenter, id)
+
+    default_questions = Experiment.default_questions()
+
+    changeset = Experiment.change_task(%Task{})
+
+    render(conn, "new_form.html",
+      task: task,
+      default_questions: default_questions,
+      changeset: changeset
+    )
+  end
+
+  def create_form_for_task(conn, %{"task" => task}, current_experimenter) do
+    require IEx; IEx.pry
+    case Experiment.create_task_questionnaire(current_experimenter, task, []) do
+      nil -> render(conn, "new_form.html")
+    end
+    # case Experiment.create_task(current_experimenter, task_params) do
+    #   {:ok, task} ->
+    #     conn
+    #     |> put_flash(:info, "Cognitive Bias Task created successfully.")
+    #     |> redirect(to: Routes.task_path(conn, :new_form, task))
+
+    #   {:error, %Ecto.Changeset{} = changeset} ->
+    #     render(conn, "new_form.html", changeset: changeset)
+    # end
+
   end
 
   def action(conn, _) do
