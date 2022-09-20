@@ -2,6 +2,8 @@ defmodule Cbt.Experiment.Task do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Cbt.Experiment.Question
+
   schema "tasks" do
     field :name, :string
     field :url, :string
@@ -13,6 +15,7 @@ defmodule Cbt.Experiment.Task do
 
     belongs_to :experimenter, Cbt.Accounts.Experimenter
 
+    embeds_many :questions, Question
     timestamps()
   end
 
@@ -28,10 +31,10 @@ defmodule Cbt.Experiment.Task do
 
   @required_attributes [:name, :pre_form_instruction, :pre_expe_instruction, :end_instruction]
 
-  @doc false
   def changeset(task, attrs) do
     task
     |> cast(attrs, @attributes)
     |> validate_required(@required_attributes)
+    |> cast_embed(:questions, with: &Question.changeset/2)
   end
 end

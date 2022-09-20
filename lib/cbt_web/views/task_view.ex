@@ -19,7 +19,7 @@ defmodule CbtWeb.TaskView do
   def display_question(assigns) do
     # <%# __meta__: #Ecto.Schema.Metadata<:loaded, "questions">,
     # id: 4,
-    # question_choices: #Ecto.Association.NotLoaded<association :question_choices is not loaded>,
+    # choices: #Ecto.Association.NotLoaded<association :choices is not loaded>,
     # task: #Ecto.Association.NotLoaded<association :task is not loaded>,
     # task_id: 16,
     # text: "Years of education",
@@ -34,13 +34,10 @@ defmodule CbtWeb.TaskView do
     """
   end
 
-  # field :type_answer, Ecto.Enum,
-  # values: [:unique_choice, :multiple_choice, :number, :boolean, :text, :integer]
-
   defp show_question_content(%{question: %Question{type_answer: :unique_choice}} = assigns) do
     ~H"""
       <%= select_answer_type(assigns) %>
-      <%= for choice <- @question.question_choices do %>
+      <%= for choice <- @question.choices do %>
           <div><%= choice.text %></div>
       <% end %>
     """
@@ -49,8 +46,8 @@ defmodule CbtWeb.TaskView do
   defp show_question_content(%{question: %Question{type_answer: :multiple_choice}} = assigns) do
     ~H"""
       <%= select_answer_type(assigns) %>
-      <%= for choice <- @question.question_choices do %>
-          <div><%= choice.text %></div>
+      <%= for choice <- @question.choices do %>
+          <div><%= choice %></div>
       <% end %>
     """
   end
@@ -100,7 +97,7 @@ defmodule CbtWeb.TaskView do
 
   #   <%= select(form, field, options, opts \\ []) %>
 
-  #   <%= for choice <- @question_choices do %>
+  #   <%= for choice <- @choices do %>
   #       <div><%= choice.text %></div>
   #   <% end %>
   #   """

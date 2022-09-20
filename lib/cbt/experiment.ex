@@ -6,10 +6,10 @@ defmodule Cbt.Experiment do
   import Ecto.Query, warn: false
 
   alias Cbt.Accounts
+  alias Cbt.Experiment.DefaultQuestions
   alias Cbt.Experiment.Question
   alias Cbt.Experiment.Task
   alias Cbt.Repo
-  alias Cbt.Utils
   alias Ecto.Changeset
 
   def list_tasks do
@@ -65,9 +65,7 @@ defmodule Cbt.Experiment do
   end
 
   def default_questions() do
-    from(q in Question, where: q.is_default == true)
-    |> preload(:question_choices)
-    |> Repo.all()
+    DefaultQuestions.get_default_questions()
   end
 
   def get_experiment_questions(%Task{id: task_id}) do
