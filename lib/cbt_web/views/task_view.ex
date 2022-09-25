@@ -16,30 +16,13 @@ defmodule CbtWeb.TaskView do
     DefaultTaskValues.end_instruction()
   end
 
-  def display_question(assigns) do
-    # <%# __meta__: #Ecto.Schema.Metadata<:loaded, "questions">,
-    # id: 4,
-    # choices: #Ecto.Association.NotLoaded<association :choices is not loaded>,
-    # task: #Ecto.Association.NotLoaded<association :task is not loaded>,
-    # task_id: 16,
-    # text: "Years of education",
-    # type_answer: :integer,
-    # updated_at: ~N[2022-09-04 15:43:01] %>
-    ~H"""
-      <div class="question" id={"\"#{@question.id}\""}>
-        <span class="remove-question">x</span>
-        <%= text_input @form, :text, value: @question.text %>
-        <%= show_question_content(assigns) %>
-      </div>
-    """
-  end
-
   defp show_question_content(%{question: %Question{type_answer: :unique_choice}} = assigns) do
     ~H"""
       <%= select_answer_type(assigns) %>
       <%= for choice <- @question.choices do %>
-          <div><%= choice.text %></div>
+          <div><%= choice.text %> <span>-</span></div>
       <% end %>
+      <div>+</div>
     """
   end
 
@@ -47,7 +30,8 @@ defmodule CbtWeb.TaskView do
     ~H"""
       <%= select_answer_type(assigns) %>
       <%= for choice <- @question.choices do %>
-          <div><%= choice %></div>
+          <div><%= choice %> <span>-</span></div>
+          <div>+</div>
       <% end %>
     """
   end
@@ -76,30 +60,19 @@ defmodule CbtWeb.TaskView do
     """
   end
 
-  defp select_answer_type(%{question: %Question{type_answer: current_type}, form: f} = assigns) do
+  defp select_answer_type(assigns) do
     ~H"""
-      <%= select(f, :type_answer, [
-        {"Single choice", :unique_choice},
-        {"Multiple choice", :multiple_choice},
-        {"Number", :number},
-        {"True/False", :boolean},
-        {"Text", :text},
-        {"Integer", :integer}
-        ],
+    <%= select(@form, :type_answer, [
+      {"Single choice", :unique_choice},
+      {"Multiple choice", :multiple_choice},
+      {"Number", :number},
+      {"True/False", :boolean},
+      {"Text", :text},
+      {"Integer", :integer}
+      ],
 
-        selected: current_type)
-      %>
+      selected: @question.type_answer)
+    %>
     """
   end
-
-  # defp show_question_content(%Question{type_answer: :multiple_choice} = assigns) do
-  #   ~H"""
-
-  #   <%= select(form, field, options, opts \\ []) %>
-
-  #   <%= for choice <- @choices do %>
-  #       <div><%= choice.text %></div>
-  #   <% end %>
-  #   """
-  # end
 end

@@ -62,21 +62,21 @@ defmodule CbtWeb.TaskController do
 
   def new_form(conn, %{"id" => id}, current_experimenter) do
     task = Experiment.get_experimenter_task!(current_experimenter, id)
-    default_questions = Experiment.default_questions()
     changeset = Experiment.change_task(task)
 
     render(conn, "new_form.html",
       task: task,
-      default_questions: default_questions,
       changeset: changeset
     )
   end
 
-  def create_form_for_task(conn, %{"task" => task} = e, current_experimenter) do
-    require IEx; IEx.pry
-    case Experiment.create_task_questionnaire(current_experimenter, task, []) do
-      nil -> render(conn, "new_form.html")
-    end
+  def create_form_for_task(conn, %{"id" => id, "task" => task_params}, current_experimenter) do
+    require IEx
+    IEx.pry()
+    # case Experiment.create_task_questionnaire(current_experimenter, task, []) do
+    #   nil -> render(conn, "new_form.html")
+    # end
+    conn
 
     # case Experiment.create_task(current_experimenter, task_params) do
     #   {:ok, task} ->

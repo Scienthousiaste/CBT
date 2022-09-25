@@ -1,9 +1,9 @@
 <h1>Adding the questionnaire</h1>
 
-<%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task), fn f -> %>
-
-  <%= for question <- @default_questions do %>
-    <%= display_question(%{form: f, question: question}) %>
+<%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task.id), fn f -> %>
+  <%= inputs_for f, :questions, fn question -> %>
+      <%= text_input f, :text, value: question.data.text %>
+      <%= show_question_content(%{form: f, question: question.data}) %>
   <% end %>
 
   <div>+</div>

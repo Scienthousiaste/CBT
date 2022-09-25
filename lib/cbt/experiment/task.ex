@@ -2,6 +2,7 @@ defmodule Cbt.Experiment.Task do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Cbt.Experiment.DefaultQuestions
   alias Cbt.Experiment.Question
 
   schema "tasks" do
@@ -15,7 +16,7 @@ defmodule Cbt.Experiment.Task do
 
     belongs_to :experimenter, Cbt.Accounts.Experimenter
 
-    embeds_many :questions, Question
+    embeds_many :questions, Question, on_replace: :delete
     timestamps()
   end
 
@@ -34,7 +35,16 @@ defmodule Cbt.Experiment.Task do
   def changeset(task, attrs) do
     task
     |> cast(attrs, @attributes)
-    |> validate_required(@required_attributes)
     |> cast_embed(:questions, with: &Question.changeset/2)
+    |> validate_required(@required_attributes)
+  end
+
+  def init_changeset(task, attrs) do
+    default_questions = DefaultQuestions.get_default_questions()
+
+    task
+    |> cast(attrs, @attributes)
+    |> put_embed(:questions, default_questions)
+    |> validate_required(@required_attributes)
   end
 end

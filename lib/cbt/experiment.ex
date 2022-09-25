@@ -23,15 +23,10 @@ defmodule Cbt.Experiment do
     # - put assoc with questions
 
     %Task{}
-    |> Task.changeset(attrs)
+    |> Task.init_changeset(attrs)
     |> Changeset.put_assoc(:experimenter, experimenter)
     |> Changeset.put_change(:url, Cbt.URL.generate_url())
     |> Repo.insert()
-  end
-
-  def create_task_questionnaire(%Accounts.Experimenter{} = experimenter, task, attrs \\ %{}) do
-    require IEx; IEx.pry
-    nil
   end
 
   def update_task(%Task{} = task, attrs) do
@@ -62,10 +57,6 @@ defmodule Cbt.Experiment do
 
   defp experimenter_task_query(query, %Accounts.Experimenter{id: experimenter_id}) do
     from(v in query, where: v.experimenter_id == ^experimenter_id)
-  end
-
-  def default_questions() do
-    DefaultQuestions.get_default_questions()
   end
 
   def get_experiment_questions(%Task{id: task_id}) do

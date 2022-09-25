@@ -29,7 +29,7 @@ defmodule CbtWeb.Router do
     resources "/experiments", TaskController
 
     get "/form/:id", TaskController, :new_form
-    post "/form/:id", TaskController, :create_form_for_task
+    put "/form/:id", TaskController, :create_form_for_task
   end
 
   # Other scopes may use custom stacks.
