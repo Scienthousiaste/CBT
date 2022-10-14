@@ -1,13 +1,15 @@
-<h1>Adding the questionnaire</h1>
+<div class="page new-form-page">
+  <h1>Adding the questionnaire</h1>
 
-<%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task.id), fn f -> %>
-  <%= inputs_for f, :questions, fn question -> %>
-      <%= text_input f, :text, value: question.data.text %>
-      <%= show_question_content(%{form: f, question: question.data}) %>
+  <%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task.id), fn f -> %>
+    <%= inputs_for f, :questions, fn question -> %>
+        <%= text_input question, :text, value: question.data.text %>
+        <%= show_question_content(question) %>
+    <% end %>
+
+    <div>+</div>
+    <%= submit "Save" %>
   <% end %>
 
-  <div>+</div>
-  <%= submit "Save" %>
-<% end %>
-
-<span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
+  <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
+</div>
