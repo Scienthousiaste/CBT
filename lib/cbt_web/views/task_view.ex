@@ -28,13 +28,15 @@ defmodule CbtWeb.TaskView do
 
   defp show_question_content(%{data: %Question{type_answer: :multiple_choice}} = assigns) do
     ~H"""
-      <%= for choice <- @data.choices do %>
-        <div class="user-choice">
-          <input type="text" value={choice}>
-          <button class="button remove-button">-</button>
-        </div>
-      <% end %>
-      <div>+</div>
+      <div class="question-content">
+        <%= for choice <- @data.choices do %>
+          <div class="user-choice">
+            <input type="text" value={choice}>
+            <button class="button remove-button">-</button>
+          </div>
+        <% end %>
+        <button class="button add-choice-button">Add choice +</button>
+      </div>
     """
   end
 
