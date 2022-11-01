@@ -118,3 +118,11 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.question {
+  background-color: #fbfbfb;
+}
+
+.question:hover {
+  background-color: #fff;
+}

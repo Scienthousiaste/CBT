@@ -18,50 +18,28 @@ defmodule CbtWeb.TaskView do
 
   defp show_question_content(%{data: %Question{type_answer: :unique_choice}} = assigns) do
     ~H"""
-      <%= select_answer_type(assigns) %>
-      <%= for choice <- @data.choices do %>
-          <%= text_input assigns, :choices, value: choice.text %>
-      <% end %>
-      <div>+</div>
+        <%= select_answer_type(assigns) %>
+        <%= for choice <- @data.choices do %>
+            <%= text_input assigns, :choices, value: choice.text %>
+        <% end %>
+        <button class="button add-choice-button">Add choice +</button>
     """
   end
 
   defp show_question_content(%{data: %Question{type_answer: :multiple_choice}} = assigns) do
     ~H"""
-      <div class="question-content">
         <%= for choice <- @data.choices do %>
           <div class="user-choice">
             <input type="text" value={choice}>
-            <button class="button remove-button">-</button>
+            <button class="button remove-choice-button">-</button>
           </div>
         <% end %>
         <button class="button add-choice-button">Add choice +</button>
-      </div>
     """
   end
 
-  defp show_question_content(%{data: %Question{type_answer: :number}} = assigns) do
-    ~H"""
-      <%= select_answer_type(assigns) %>
-    """
-  end
-
-  defp show_question_content(%{data: %Question{type_answer: :integer}} = assigns) do
-    ~H"""
-      <%= select_answer_type(assigns) %>
-    """
-  end
-
-  defp show_question_content(%{data: %Question{type_answer: :boolean}} = assigns) do
-    ~H"""
-      <%= select_answer_type(assigns) %>
-    """
-  end
-
-  defp show_question_content(%{data: %Question{type_answer: :text}} = assigns) do
-    ~H"""
-      <%= select_answer_type(assigns) %>
-    """
+  defp show_question_content(%{data: %Question{}} = _assigns) do
+    nil
   end
 
   defp select_answer_type(assigns) do

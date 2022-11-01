@@ -3,11 +3,14 @@
 
   <%= form_for @changeset, Routes.task_path(@conn, :create_form_for_task, @task.id), fn f -> %>
     <%= inputs_for f, :questions, fn question -> %>
-        <%= text_input question, :text, value: question.data.text %>
-        <%= show_question_content(question) %>
+        <div class="question">
+          <div class="question-header">Question <button class="button delete-question-button">Delete question</button></div>
+          <div><span>Text question: </span><%= text_input question, :text, value: question.data.text %></div>
+          <div><span>Type answer: </span><%= select_answer_type(question) %></div>
+          <%= show_question_content(question) %>
+        </div>
     <% end %>
-
-    <button class="button add-question-button">+</button>
+    <button class="button add-question-button">Add question</button>
     <%= submit "Save" %>
   <% end %>
 
