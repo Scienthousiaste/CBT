@@ -4,6 +4,10 @@ defmodule CbtWeb.TaskController do
   alias Cbt.Experiment
   alias Cbt.Experiment.Task
 
+  alias Plug.Conn
+
+  plug Cbt.AccessControl.AccessAndAssignExperiment when action in [:show, :edit, :update, :delete, :new_form, :create_form_for_task]
+
   def index(conn, _params, current_experimenter) do
     tasks = Experiment.list_experimenter_tasks(current_experimenter)
     render(conn, "index.html", tasks: tasks)
@@ -26,20 +30,16 @@ defmodule CbtWeb.TaskController do
     end
   end
 
-  def show(conn, %{"id" => id}, current_experimenter) do
-    task = Experiment.get_experimenter_task!(current_experimenter, id)
+  def show(%Conn{assigns: %{task: task}} = conn, _, _current_experimenter) do
     render(conn, "show.html", task: task)
   end
 
-  def edit(conn, %{"id" => id}, current_experimenter) do
-    task = Experiment.get_experimenter_task!(current_experimenter, id)
+  def edit(%Conn{assigns: %{task: task}} = conn, _, _current_experimenter) do
     changeset = Experiment.change_task(task)
     render(conn, "edit.html", task: task, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "task" => task_params}, current_experimenter) do
-    task = Experiment.get_experimenter_task!(current_experimenter, id)
-
+  def update(%Conn{assigns: %{task: task}} = conn, %{"task" => task_params}, _current_experimenter) do
     case Experiment.update_task(task, task_params) do
       {:ok, task} ->
         conn
@@ -51,8 +51,7 @@ defmodule CbtWeb.TaskController do
     end
   end
 
-  def delete(conn, %{"id" => id}, current_experimenter) do
-    task = Experiment.get_experimenter_task!(current_experimenter, id)
+  def delete(%Conn{assigns: %{task: task}} = conn, _, _current_experimenter) do
     {:ok, _task} = Experiment.delete_task(task)
 
     conn
@@ -60,8 +59,7 @@ defmodule CbtWeb.TaskController do
     |> redirect(to: Routes.task_path(conn, :index))
   end
 
-  def new_form(conn, %{"id" => id}, current_experimenter) do
-    task = Experiment.get_experimenter_task!(current_experimenter, id)
+  def new_form(%Conn{assigns: %{task: task}} = conn, _, _current_experimenter) do
     changeset = Experiment.change_task(task)
 
     render(conn, "new_form.html",
@@ -70,7 +68,7 @@ defmodule CbtWeb.TaskController do
     )
   end
 
-  def create_form_for_task(conn, %{"id" => id, "task" => task_params}, current_experimenter) do
+  def create_form_for_task(%Conn{assigns: %{task: task}} = conn, %{"task" => task_params}, current_experimenter) do
     require IEx
     IEx.pry()
     # case Experiment.create_task_questionnaire(current_experimenter, task, []) do

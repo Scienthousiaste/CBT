@@ -6,7 +6,6 @@ defmodule Cbt.Experiment do
   import Ecto.Query, warn: false
 
   alias Cbt.Accounts
-  alias Cbt.Experiment.DefaultQuestions
   alias Cbt.Experiment.Question
   alias Cbt.Experiment.Task
   alias Cbt.Repo
