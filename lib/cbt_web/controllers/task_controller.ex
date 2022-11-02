@@ -69,6 +69,7 @@ defmodule CbtWeb.TaskController do
   end
 
   def create_form_for_task(%Conn{assigns: %{task: task}} = conn, %{"task" => task_params}, current_experimenter) do
+    #TODO: Now, need to find how to get the proper final state of the form from the JavaScript
     require IEx
     IEx.pry()
     # case Experiment.create_task_questionnaire(current_experimenter, task, []) do

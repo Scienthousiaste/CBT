@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     select(".new-form-page .add-choice-button").on("click", onClickAddChoice);
     select(".new-form-page .add-question-button").on("click", onClickAddQuestion);
     select(".new-form-page .delete-question-button").on("click", onDeleteQuestion);
+    select(".new-form-page form").on("submit", onSubmit);
 });
 
 function onDeleteQuestion(e) {
@@ -175,4 +176,32 @@ function onClickAddQuestion(e) {
 
 function onClickRemoveChoice(e) {
     e.target.parentElement.remove();
+}
+
+function onSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const questions = select(".new-form-page form .question");
+    const formData = [...questions].map(questionElement => {
+        const textQuestion = questionElement.children[1].lastChild.value;
+        const typeAnswer = questionElement.children[2].lastChild.value;
+
+        return {
+            "text": textQuestion,
+            "type_answer": typeAnswer,
+            "choices": extractQuestionChoices(typeAnswer, questionElement.children)
+        };
+    })
+}
+
+function extractQuestionChoices(typeAnswer, nodes) {
+    if (["unique_choice", "multiple_choice"].includes(typeAnswer)) {
+        return [...nodes]
+            .filter((node => node.className === "user-choice"))
+            .map(choice => choice.children[0].value);
+    }
+    else {
+        return [];
+    }
 }
