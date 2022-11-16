@@ -17,7 +17,7 @@ defmodule Cbt.Experiment.Question do
   @doc false
   def changeset(question, attrs) do
     question
-    |> cast(attrs, [:text, :type_answer, :task_id])
+    |> cast(attrs, [:text, :type_answer, :choices, :task_id])
     |> validate_required([:text, :type_answer, :task_id])
   end
 end

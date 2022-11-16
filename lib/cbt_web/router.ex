@@ -29,15 +29,8 @@ defmodule CbtWeb.Router do
     resources "/experiments", TaskController
 
     get "/form/:id", TaskController, :new_form
-    put "/form/:id", TaskController, :create_form_for_task
+    post "/form/:id/post_form", TaskController, :create_form_for_task
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CbtWeb do
-  #   pipe_through :api
-  # end
-
-
 
   # Enables the Swoosh mailbox preview in development.
   #

@@ -193,6 +193,23 @@ function onSubmit(e) {
             "choices": extractQuestionChoices(typeAnswer, questionElement.children)
         };
     })
+
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
+    const url = window.location.href + "/post_form";
+    fetch(url, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': token
+        },
+        body: JSON.stringify(formData),
+    })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        })
 }
 
 function extractQuestionChoices(typeAnswer, nodes) {
