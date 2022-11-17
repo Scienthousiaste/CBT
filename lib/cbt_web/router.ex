@@ -32,6 +32,12 @@ defmodule CbtWeb.Router do
     post "/form/:id/post_form", TaskController, :create_form_for_task
   end
 
+  scope "/cbt", CbtWeb do
+    pipe_through [:browser]
+
+    get "/:expe_string", CbtController, :new_cbt
+  end
+
   # Enables the Swoosh mailbox preview in development.
   #
   # Note that preview only shows emails that were sent by the same
