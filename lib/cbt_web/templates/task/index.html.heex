@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Url</th>
+      <th>URL</th>
 
       <th></th>
     </tr>
@@ -13,7 +13,7 @@
 <%= for task <- @tasks do %>
     <tr>
       <td><%= task.name %></td>
-      <td><a href={task.url}><%= task.url %></a></td>
+      <td><a href={@base_url <> task.url}><%= task.url %></a></td>
 
       <td>
         <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>

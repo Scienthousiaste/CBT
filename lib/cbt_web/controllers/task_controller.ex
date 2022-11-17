@@ -10,7 +10,7 @@ defmodule CbtWeb.TaskController do
 
   def index(conn, _params, current_experimenter) do
     tasks = Experiment.list_experimenter_tasks(current_experimenter)
-    render(conn, "index.html", tasks: tasks)
+    render(conn, "index.html", tasks: tasks, base_url: CbtWeb.Router.Helpers.url(conn) <> "/")
   end
 
   def new(conn, _params, _current_experimenter) do

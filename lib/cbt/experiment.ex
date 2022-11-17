@@ -18,9 +18,6 @@ defmodule Cbt.Experiment do
   def get_task!(id), do: Repo.get!(Task, id)
 
   def create_task(%Accounts.Experimenter{} = experimenter, attrs \\ %{}) do
-    # TODOs:
-    # - put assoc with questions
-
     %Task{}
     |> Task.init_changeset(attrs)
     |> Changeset.put_assoc(:experimenter, experimenter)
